@@ -1,0 +1,150 @@
+#include<stdio.h>
+int main(){
+    void *arr[3];
+    int a=100;
+    float b=20.5;
+    char *c="happy";
+
+    arr[0]=&a;
+    arr[1]=&b;
+    arr[2]=&c;
+
+    printf("Integer :%d\n",*((int *)arr[0]));
+    printf("Float :%.2f\n",*((float *)arr[1]));
+    printf("Character :%s\n",(char *)arr[2]);
+
+    return 0;
+/*Here I've learned about void pointers and how you should dereference them*/
+
+}#include<stdio.h>
+#include<stdlib.h>
+int main(){
+    int *ptr;
+    ptr=(int *)malloc(10 * sizeof(int));
+    if(ptr==NULL)
+        printf("Memory could not be allocated");
+    else
+        printf("Memory allocated successfully");
+    return 0;
+/*Here we have learned about null pointers and malloc*/
+
+}/*Dynamic memory allocation is the allocation of memory at execution time or run time*/
+/*Heap is where dynamic memory alloaction takes place...it is randomly unlike stack*/
+/*alloacted memory can oly be accessed through pointers*/
+#include<stdio.h>
+#include<stdlib.h>
+int main(){
+    int i,n;
+    printf("Enter any interger value:");
+    scanf("%d",&n);
+    int *ptr=(int *)malloc(n*sizeof(int));
+
+    if(ptr==NULL){
+        printf("Memory could not be allocated");
+        exit(1);
+    }
+    for(i=0;i<n;i++){
+        printf("Enter an integer:");
+        scanf("%d",ptr +i);
+    }
+    for(i=0;i<n;i++)
+        printf("%d",*(ptr + i));
+    return 0;
+    
+
+
+}/*Dynamic memory allocation is the allocation of memory at execution time or run time*/
+/*Heap is where dynamic memory alloaction takes place...it is randomly unlike stack*/
+/*alloacted memory can oly be accessed through pointers*/
+#include<stdio.h>
+#include<stdlib.h>
+int main(){
+    int i,n;
+    printf("Enter any interger value:");
+    scanf("%d",&n);
+    int *ptr=(int *)malloc(n*sizeof(int));
+
+    if(ptr==NULL){
+        printf("Memory could not be allocated");
+        exit(1);
+    }
+    for(i=0;i<n;i++){
+        printf("Enter an integer:");
+        scanf("%d",ptr +i);
+    }
+    for(i=0;i<n;i++)
+        printf("%d",*(ptr + i));
+    return 0;
+    
+
+
+}
+
+#include<stdio.h>
+struct student{
+    char name[50];
+    int age;
+    int roll_no;
+    float marks;
+};
+void print(char name[],int age,int roll_no,float marks){
+    printf("%s %d %d %.2f",name,age,roll_no,marks);
+}
+int main(){
+    struct student s1={"Ahmed",22,7815,89.5};
+    print(s1.name, s1.age, s1.roll_no, s1.marks);
+
+}
+
+
+#include<stdio.h>
+struct charset{
+    /*pass by reference*/
+    char s;
+    int i;
+};
+void keyvalue(char* s,int* i){
+    scanf("%c %d",s,i);
+}
+int main(){
+    int j;
+    struct charset cs;
+    keyvalue(&cs.s, &cs.i);
+    printf("%c %d",cs.s,cs.i);
+    return 0;
+}#include<stdio.h>
+struct point{
+    int x;
+    int y;
+};
+
+void print(struct point p){
+    printf("% d %d\n",p.x ,p.y);
+}
+int main(){
+    struct point p1={32 ,45};
+    struct point p2={34, 56};
+    print(p1);
+    print(p2);
+    return 0;
+}#include<stdio.h>
+int fib(int f){
+    if(f<=1){
+        return f;
+    }
+    else{
+        return fib(f-1)+ fib(f-2);
+    }
+}
+int main(){
+    int f;
+    printf("Enter the number you want to check its fibionacci:\n");
+    scanf("%d",&f);
+    if(f<0){
+        printf("PLease do not enter negative numbers:\n");
+    }
+    else{
+        printf("The fibionacci number of %d is:%d\n",f,fib(f));
+    }
+    return 0;
+}

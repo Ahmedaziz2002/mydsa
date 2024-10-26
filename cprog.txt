@@ -1,0 +1,409 @@
+#include<stdio.h>
+int main(){
+    /*WE are now learning about a ternary operator it works as an if else statement*/
+    int a=5;
+    char c;
+
+    c=(a<10)? 'S':'L';
+    printf("C :%c",c);
+}#include<stdio.h>
+int main(){
+    int a=10;
+    printf("a =%d",sizeof(a));
+    /*order of operations is pemdas-parenthesis exponents multi div add sub*/
+}#include<stdio.h>
+void demo();
+int main(){
+    /*I am learning about c functions.A function is a block of statements which is used to perform a specific task*/
+    /*There are two types of functions;Library functions and User defined functions*/
+    /*Lib fun are such as puts(),gets(),printf(),scanf()...*/
+    /*C allows programmers to define their own functions to suite their requirements*/
+    /*A function is defined returntype functionname(arguments...){
+    block of cocdes}*/
+    /*If nothing is returned in a function the the return type is a void*/
+    demo();
+    return 0;
+    /*You cannot declare a functionafter the main function unless you have declared its prototype before the main*/
+
+
+}
+void demo(){
+    printf("Hello Ahmed you know abput functions now");
+}#include<stdio.h>
+int main(){
+    int a[10]={2,3,4,5,6,7,8,9,10,11};
+    int i=0;
+
+    int lenofarray=sizeof(a)/sizeof(int);
+
+    printf("Length of the array is %d\n",lenofarray);
+    for(i=0;i<lenofarray;i++){
+        printf("Array element at index [%d]= %d\n",i,a[i]);
+    }
+    return 0;
+
+
+}#include<stdio.h>
+void main(){
+    int i=3;
+
+    int *j;
+
+    j=&i;
+
+    printf("Address of i variable is %x \n",&i);
+    printf("Address of j variable is %x \n",j);
+    printf("Value of j variable is %d \n",*j);
+}
+#include<stdio.h>
+void main(){
+    int i=3;
+    int *j;
+    j=&i;
+
+    printf("Adrress of variable j is %x\n",j);
+    j=j+1;
+    printf("New address of variable j=%x\n",j);
+}#include<stdio.h>
+
+int main(){
+    int a,b,t;
+
+    printf("Enter a and b\n");
+    scanf("%d %d",&a,&b);
+
+    if(a<b){
+        //interchange
+        t=a;
+        a=b;
+        b=t;
+    }
+    printf("the gcd of %d %d is\n",a,b);
+
+
+    //inaviant gcd(A,B)=gcd(a,b)
+
+    while(!(b==0)){
+        t=a;
+        a=b;
+        b=t%b;
+    }
+    printf("%d\n",a);
+    return 0;
+}#include<stdio.h>
+#include<stdlib.h>
+
+//Binary tree a tree with utmost 2 children in each node
+
+struct Node{
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data){
+    struct Node* newnode=(struct Node*)malloc(sizeof(struct Node));
+
+    newnode->data=data;
+    newnode->left=newnode->right=NULL;
+    return newnode;
+}
+
+struct Node* insert(struct Node* node,int value){
+    //a function to insert a value into the bst
+    if(node==NULL){
+        return createNode(value);
+    }
+
+    if(value<node->data){
+        node->left=insert(node->left,value);
+    }else if(value>node->data){
+        node->right=insert(node->right,value);
+    }
+    return node;
+}
+
+struct Node* search(struct Node* node,int value){
+    //a function to search for values in the bst
+    if(node==NULL || node->data==value){
+        return node;
+    }
+    if(value<node->data){
+        return search(node->left,value);
+    }
+    return search(node->right,value);
+}
+
+struct Node* minValue(struct Node* node){
+    struct Node* current=node;
+    while(current && current->left!=NULL){
+        current=current->left;
+    }
+    return current;
+}
+
+struct Node* deleteNode(struct Node* node,int value){
+    if(node==NULL){
+        return node;
+    }
+    if(value<node->data){
+        node->left=deleteNode(node->left,value);
+    }
+    else if(value>node->data){
+        node->right=deleteNode(node->right,value);
+    }
+    else{
+        //Node with only one child or no child
+        if(node->left==NULL){
+            struct Node* temp=node->right;
+            free(node);
+            return temp;
+        }
+        else if(node->right==NULL){
+            struct Node* temp=node->left;
+            free(node);
+            return temp;
+        }
+        //node with no children
+        struct Node* temp=minValue(node->right);
+        node->data=temp->data;
+        node->right=deleteNode(node->right,temp->data);
+    }
+    return node;
+}
+
+
+
+void inorder(struct Node* node){
+    if(node==NULL)return;
+    inorder(node->left);
+    printf(" %d",node->data);
+    inorder(node->right);
+}
+
+void preorder(struct Node* node){
+    if(node==NULL)return;
+    printf(" %d",node->data);
+    preorder(node->left);
+    preorder(node->right);
+}
+
+void postorder(struct Node* node){
+    if(node==NULL)return;
+    postorder(node->left);
+    postorder(node->right);
+    printf(" %d",node->data);
+}
+
+int main(){
+    struct Node* root=NULL;
+
+    int n,data;
+
+    printf("Enter the root node:\n");
+    scanf("%d",&n);
+    root=insert(root,n);
+
+    for(int i=1;i<=n;i++){
+        printf("Enter the data for your tree:\n",i+1);
+        scanf("%d",&data);
+        insert(root,data);
+    }
+
+    printf("Traversal in terms of in,pre and post:\n");
+    inorder(root);
+    printf("\n");
+
+    preorder(root);
+    printf("\n");
+
+    postorder(root);
+    printf("\n");
+
+    int s;
+    printf("Enter the node you want to search:\n");
+    scanf("%d",&s);
+
+    struct Node* result=search(root,s);
+    if(result!=NULL){
+        printf("%d found in bst\n",s);
+    }
+    else{
+        printf("%d not found in bst\n",s);
+    }
+
+    int d;
+    printf("Enter the node you want to delete:\n");
+    scanf("%d",&d);
+    root=deleteNode(root,d);
+    printf("Traversal in terms of in,pre and post after deleteing:\n");
+    inorder(root);
+    printf("\n");
+
+    preorder(root);
+    printf("\n");
+
+    postorder(root);
+    printf("\n");
+
+
+    return 0;
+}#include<stdio.h>
+#include<stdlib.h>
+
+//Binary tree a tree with utmost 2 children in each node
+
+struct Node{
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data){
+    struct Node* newnode=(struct Node*)malloc(sizeof(struct Node));
+
+    newnode->data=data;
+    newnode->left=newnode->right=NULL;
+    return newnode;
+}
+
+struct Node* insert(struct Node* node,int value){
+    //a function to insert a value into the bst
+    if(node==NULL){
+        return createNode(value);
+    }
+
+    if(value<node->data){
+        node->left=insert(node->left,value);
+    }else if(value>node->data){
+        node->right=insert(node->right,value);
+    }
+    return node;
+}
+
+struct Node* search(struct Node* node,int value){
+    //a function to search for values in the bst
+    if(node==NULL || node->data==value){
+        return node;
+    }
+    if(value<node->data){
+        return search(node->left,value);
+    }
+    return search(node->right,value);
+}
+
+struct Node* minValue(struct Node* node){
+    struct Node* current=node;
+    while(current && current->left!=NULL){
+        current=current->left;
+    }
+    return current;
+}
+
+struct Node* deleteNode(struct Node* node,int value){
+    if(node==NULL){
+        return node;
+    }
+    if(value<node->data){
+        node->left=deleteNode(node->left,value);
+    }
+    else if(value>node->data){
+        node->right=deleteNode(node->right,value);
+    }
+    else{
+        //Node with only one child or no child
+        if(node->left==NULL){
+            struct Node* temp=node->right;
+            free(node);
+            return temp;
+        }
+        else if(node->right==NULL){
+            struct Node* temp=node->left;
+            free(node);
+            return temp;
+        }
+        //node with no children
+        struct Node* temp=minValue(node->right);
+        node->data=temp->data;
+        node->right=deleteNode(node->right,temp->data);
+    }
+    return node;
+}
+
+
+
+void inorder(struct Node* node){
+    if(node==NULL)return;
+    inorder(node->left);
+    printf(" %d",node->data);
+    inorder(node->right);
+}
+
+void preorder(struct Node* node){
+    if(node==NULL)return;
+    printf(" %d",node->data);
+    preorder(node->left);
+    preorder(node->right);
+}
+
+void postorder(struct Node* node){
+    if(node==NULL)return;
+    postorder(node->left);
+    postorder(node->right);
+    printf(" %d",node->data);
+}
+
+int main(){
+    struct Node* root=NULL;
+
+    int n,data;
+
+    printf("Enter the root node:\n");
+    scanf("%d",&n);
+    root=insert(root,n);
+
+    for(int i=1;i<=n;i++){
+        printf("Enter the data for your tree:\n",i+1);
+        scanf("%d",&data);
+        insert(root,data);
+    }
+
+    printf("Traversal in terms of in,pre and post:\n");
+    inorder(root);
+    printf("\n");
+
+    preorder(root);
+    printf("\n");
+
+    postorder(root);
+    printf("\n");
+
+    int s;
+    printf("Enter the node you want to search:\n");
+    scanf("%d",&s);
+
+    struct Node* result=search(root,s);
+    if(result!=NULL){
+        printf("%d found in bst\n",s);
+    }
+    else{
+        printf("%d not found in bst\n",s);
+    }
+
+    int d;
+    printf("Enter the node you want to delete:\n");
+    scanf("%d",&d);
+    root=deleteNode(root,d);
+    printf("Traversal in terms of in,pre and post after deleteing:\n");
+    inorder(root);
+    printf("\n");
+
+    preorder(root);
+    printf("\n");
+
+    postorder(root);
+    printf("\n");
+
+
+    return 0;
+}
